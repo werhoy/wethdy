@@ -10,7 +10,7 @@ public class WeatherItem {
     @SerializedName("sys")
     SysList sysLists;
     @SerializedName("wether")
-    Weather weathers;
+    ArrayList<Weather> weathers;
     @SerializedName("main")
     Main mains;
     @SerializedName("wind")

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,9 +33,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Gota.OnRequestPermissionsBack {
+    static final int ACCESS_COARSE_LOCATION_PERM = 0;
     TextView locationText;
     TextView tempratureText;
     TextView dateText;
+    TextView scriptText;
     ImageView charactersImage;
     final String TAG = MainActivity.class.getSimpleName();
     String locationInfo;
@@ -53,15 +56,8 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         locationText=(TextView)findViewById(R.id.locationText);
         tempratureText = (TextView)findViewById(R.id.tempratureText);
         dateText = (TextView)findViewById(R.id.dateText);
+        scriptText = (TextView)findViewById(R.id.scriptText);
         charactersImage = (ImageView)findViewById(R.id.charactersimage);
-
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                //권한을 거절하면 재 요청을 하는 함수
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_CHECKIN_PROPERTIES},1);
-            }
-        }
 
         new Gota.Builder(this)
                 .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -117,6 +113,22 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         public String getCity() { return city; }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean alloewd = true;
+
+        if(ACCESS_COARSE_LOCATION_PERM==0){
+            for(int res : grantResults){
+                alloewd = alloewd && (res == PackageManager.PERMISSION_GRANTED);
+            }
+        }else{
+            alloewd = false;
+        }
+
+        if(!alloewd){
+            Toast.makeText(getApplicationContext(),"권한거부",Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) {
@@ -137,12 +149,11 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     temperatureString = ((Integer)temperatureValue).toString();
                     tempratureText.setText(temperatureString);
 
-                    Log.i(TAG, "rain: "+ response.body().weathers.main);
-                    weather = response.body().weathers.main;
+                    Log.i(TAG, "rain: "+ response.body().weathers.get(0).main);
+                    weather = response.body().weathers.get(0).main;
                     if(weather.equals("rain")) raining = true;
 
-                    Log.i(TAG,"weather"+response.body().weathers.id);
-
+                    Log.i(TAG,"weather"+response.body().weathers.get(0).id);
 
                     imageChange();
 
@@ -157,6 +168,26 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
             }
         });
     }
+
+    private boolean hasPermission(){
+        int res = 0;
+        String[] permission = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        for(String perm : permission){
+            res = checkCallingOrSelfPermission(perm);
+            if(!(res == PackageManager.PERMISSION_GRANTED))
+                return  false;
+        }
+        return true;
+    }
+
+    private void requestPerm(){
+        String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            requestPermissions(permissions,ACCESS_COARSE_LOCATION_PERM);
+        }
+    }
+
 
     private void getDate(){
         Calendar cal = Calendar.getInstance();
@@ -188,53 +219,72 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     }
 
     private void imageChange(){
+        String[] scriptcold = {"읏추!! 감기 걸리겠어요","핫도그 먹기 좋은 날씨에요:0","으슬으슬! 뜨숩게 입고 나가요","겉옷 꼭 챙겨서 나가요!","자전거 타러갈까요?:)",
+                                "솜사탕들고 나들이갈 날씨에요:0","더워! 물 자주 마시세요","아이스림처럼 녹아버리겠어요:(","비와요 우산 잊지말기!"};
+
         if(temperatureValue<5){
-            if(raining) {
+            if(raining) { //5도이하
                 charactersImage.setImageResource(R.drawable.cr5);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[0]);
             charactersImage.setImageResource(R.drawable.c5);
-        }else if(temperatureValue<10){
+        }else if(temperatureValue<10){ //6~9도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr6_9);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[1]);
             charactersImage.setImageResource(R.drawable.c6_9);
-        }else if(temperatureValue<12){
+        }else if(temperatureValue<12){ //10~11도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr10_11);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[2]);
             charactersImage.setImageResource(R.drawable.c10_11);
-        }else if(temperatureValue<17){
+        }else if(temperatureValue<17){ //12~16도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr12_16);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[3]); //겉옷필수
             charactersImage.setImageResource(R.drawable.c12_16);
-        }else if(temperatureValue<20){
+        }else if(temperatureValue<20){ //17~19도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr17_19);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[4]);
             charactersImage.setImageResource(R.drawable.c17_19);
-        }else if(temperatureValue<23){
+        }else if(temperatureValue<23){ //20~22도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr20_22);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[5]);
             charactersImage.setImageResource(R.drawable.c20_22);
-        }else if(temperatureValue<27){
+        }else if(temperatureValue<27){ //23~26도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr23_26);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[6]);
             charactersImage.setImageResource(R.drawable.c23_26);
-        }else{
+        }else{ //27도 이상
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr27);
+                scriptText.setText(scriptcold[8]);
                 return;
             }
+            scriptText.setText(scriptcold[7]);
             charactersImage.setImageResource(R.drawable.c27);
         }
     }
