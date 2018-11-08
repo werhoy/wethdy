@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,61 +11,133 @@
         android:layout_height="match_parent"
         android:background="@drawable/back">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ha" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true">
+            tools:ignore="RtlCompat">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <TextView
+                    android:id="@+id/tempratureText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="30"
+                    android:textSize="60sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.81"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/locationText"
+                    app:layout_constraintVertical_bias="0.333" />
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="TextView"
+                    android:textSize="40sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.886"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="mm/dd"
+                    android:textSize="40sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.093"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/weatherImage"
+                    app:layout_constraintVertical_bias="0.106" />
+
+                <ImageView
+                    android:id="@+id/weatherImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/locationText"
+                    app:layout_constraintHorizontal_bias="0.58"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.297"
+                    app:srcCompat="@drawable/sun" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="31dp"
+                    android:layout_height="39dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tempratureText"
+                    app:layout_constraintTop_toBottomOf="@+id/locationText"
+                    app:layout_constraintVertical_bias="0.851"
+                    app:srcCompat="@drawable/c" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="90dp"
-                android:layout_marginRight="60dp"
-                android:layout_marginTop="100dp"
-                app:srcCompat="@drawable/pa" />
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="17dp"
-                android:layout_marginRight="17dp"
-                android:layout_marginTop="100dp"
-                app:srcCompat="@drawable/ba" />
+                android:id="@+id/charactersimage"
+                android:layout_width="225dp"
+                android:layout_height="273dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="55dp"
+                app:srcCompat="@drawable/c12_16" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/charactersimage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-55dp"
                 android:text="TextView"
-                android:textColor="#fff"
-                android:textSize="36sp"
-                android:layout_marginLeft="60dp"
-                android:layout_alignParentLeft="true" />
-
+                android:textSize="30sp" />
 
 
         </RelativeLayout>

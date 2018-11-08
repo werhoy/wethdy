@@ -2,7 +2,7 @@ package com.example.user.main;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Wind {
+public class WindList {
     @SerializedName("speed")
     float speed;
     @SerializedName("deg")
