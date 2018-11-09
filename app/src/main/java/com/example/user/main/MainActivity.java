@@ -33,7 +33,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Gota.OnRequestPermissionsBack {
-    static final int ACCESS_COARSE_LOCATION_PERM = 0;
     TextView locationText;
     TextView tempratureText;
     TextView dateText;
@@ -68,30 +67,24 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         Address finalA = null;
         MyTracker tracker = new MyTracker(mContext);
         Geocoder mGeo = new Geocoder(mContext, Locale.ENGLISH);
-        Geocoder mGeok = new Geocoder(mContext, Locale.KOREA);
         List<Address> addr = null;
-        List<Address> addrk = null;
-        Address a = null;   Address ak = null;
+        Address a = null;
 
         try {
             addr = mGeo.getFromLocation(tracker.getLatitude(),tracker.getLongitude(),1);
-            addrk = mGeok.getFromLocation(tracker.getLatitude(),tracker.getLongitude(),1);
             a = addr.get(0);
-            ak = addrk.get(0);
             finalA = a;
             locationInfo = a.getSubLocality();
             Log.e("Location",locationInfo);
-            locationText.setText(ak.getSubLocality());
+            locationText.setText(a.getSubLocality());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        getWeatherInfo();
 
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd",Locale.KOREA);
-        String Date = df.format(new Date());
-        getDate();
-        dateText.setText(Date+"("+week+")");
-    }
+        getDate(); //날짜
+        getWeatherInfo(); //날씨
+
+    } //OnCreate
 
     public class Weater {
         int lat;
@@ -114,26 +107,9 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        boolean alloewd = true;
-
-        if(ACCESS_COARSE_LOCATION_PERM==0){
-            for(int res : grantResults){
-                alloewd = alloewd && (res == PackageManager.PERMISSION_GRANTED);
-            }
-        }else{
-            alloewd = false;
-        }
-
-        if(!alloewd){
-            Toast.makeText(getApplicationContext(),"권한거부",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) {
+    public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) { //앱 권한 요청
         if(gotaResponse.isGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            // Your Code
+
         }
     }
 
@@ -144,18 +120,21 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
             @Override
             public void onResponse(Call<WeatherItem> call, Response<WeatherItem> response) {
                 try {
+                    //위치
                     Log.i(TAG, "onResponse: "+ (((int)response.body().mains.temp) - 273));
                     temperatureValue = (((int)response.body().mains.temp) - 273);
                     temperatureString = ((Integer)temperatureValue).toString();
                     tempratureText.setText(temperatureString);
 
+                    //날씨
                     Log.i(TAG, "rain: "+ response.body().weathers.get(0).main);
                     weather = response.body().weathers.get(0).main;
                     if(weather.equals("rain")) raining = true;
 
                     Log.i(TAG,"weather"+response.body().weathers.get(0).id);
+                    weathrtId = response.body().weathers.get(0).id;
 
-                    imageChange();
+                    imageChange(); //이미지 체인지
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -169,29 +148,11 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         });
     }
 
-    private boolean hasPermission(){
-        int res = 0;
-        String[] permission = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
-
-        for(String perm : permission){
-            res = checkCallingOrSelfPermission(perm);
-            if(!(res == PackageManager.PERMISSION_GRANTED))
-                return  false;
-        }
-        return true;
-    }
-
-    private void requestPerm(){
-        String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            requestPermissions(permissions,ACCESS_COARSE_LOCATION_PERM);
-        }
-    }
-
-
     private void getDate(){
         Calendar cal = Calendar.getInstance();
         int dayweek = cal.get(Calendar.DAY_OF_WEEK);
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd",Locale.KOREA);
+        String Date = df.format(new Date());
 
         switch (dayweek){
             case 1:
@@ -216,75 +177,77 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                 week= "토";
                 break;
         }
+
+        dateText.setText(Date+"("+week+")");
     }
 
+    void rainText(){
+        scriptText.setText("비와요 우산 잊지말기!");
+    }
     private void imageChange(){
-        String[] scriptcold = {"읏추!! 감기 걸리겠어요","핫도그 먹기 좋은 날씨에요:0","으슬으슬! 뜨숩게 입고 나가요","겉옷 꼭 챙겨서 나가요!","자전거 타러갈까요?:)",
-                                "솜사탕들고 나들이갈 날씨에요:0","더워! 물 자주 마시세요","아이스림처럼 녹아버리겠어요:(","비와요 우산 잊지말기!"};
-
         if(temperatureValue<5){
             if(raining) { //5도이하
                 charactersImage.setImageResource(R.drawable.cr5);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[0]);
+            scriptText.setText("읏추!! 감기 걸리겠어요");
             charactersImage.setImageResource(R.drawable.c5);
         }else if(temperatureValue<10){ //6~9도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr6_9);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[1]);
+            scriptText.setText("핫도그 먹기 좋은 날씨에요:0");
             charactersImage.setImageResource(R.drawable.c6_9);
         }else if(temperatureValue<12){ //10~11도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr10_11);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[2]);
+            scriptText.setText("으슬으슬! 뜨숩게 입고 나가요");
             charactersImage.setImageResource(R.drawable.c10_11);
         }else if(temperatureValue<17){ //12~16도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr12_16);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[3]); //겉옷필수
+            scriptText.setText("겉옷 꼭 챙겨서 나가요!"); //겉옷필수
             charactersImage.setImageResource(R.drawable.c12_16);
         }else if(temperatureValue<20){ //17~19도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr17_19);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[4]);
+            scriptText.setText("자전거 타러갈까요?:)");
             charactersImage.setImageResource(R.drawable.c17_19);
         }else if(temperatureValue<23){ //20~22도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr20_22);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[5]);
+            scriptText.setText("솜사탕들고 나들이갈 날씨에요:0");
             charactersImage.setImageResource(R.drawable.c20_22);
         }else if(temperatureValue<27){ //23~26도
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr23_26);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[6]);
+            scriptText.setText("더워! 물 자주 마시세요");
             charactersImage.setImageResource(R.drawable.c23_26);
         }else{ //27도 이상
             if(raining) {
                 charactersImage.setImageResource(R.drawable.cr27);
-                scriptText.setText(scriptcold[8]);
+                rainText();
                 return;
             }
-            scriptText.setText(scriptcold[7]);
+            scriptText.setText("아이스크림처럼 녹아버리겠어요:(");
             charactersImage.setImageResource(R.drawable.c27);
         }
     }
