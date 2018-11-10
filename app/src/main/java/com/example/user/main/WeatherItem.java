@@ -9,7 +9,7 @@ public class WeatherItem {
     CoordList coordLists;
     @SerializedName("sys")
     SysList sysLists;
-    @SerializedName("wether")
+    @SerializedName("weather")
     ArrayList<Weather> weathers;
     @SerializedName("main")
     Main mains;

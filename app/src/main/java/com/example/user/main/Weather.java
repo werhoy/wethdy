@@ -11,4 +11,8 @@ public class Weather {
     String description;
     @SerializedName("icon")
     String icon;
+
+    public String getIcon() {
+        return icon;
+    }
 }

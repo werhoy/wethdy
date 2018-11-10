@@ -16,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
 import net.alhazmy13.gota.Gota;
 import net.alhazmy13.gota.GotaResponse;
 
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     TextView dateText;
     TextView scriptText;
     ImageView charactersImage;
+    ImageView weatherImage;
     final String TAG = MainActivity.class.getSimpleName();
     String locationInfo;
     String temperatureString="";
@@ -54,12 +59,20 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         dateText = (TextView)findViewById(R.id.dateText);
         scriptText = (TextView)findViewById(R.id.scriptText);
         charactersImage = (ImageView)findViewById(R.id.charactersimage);
+        weatherImage = (ImageView)findViewById(R.id.weatherImage);
 
-        new Gota.Builder(this)
-                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .requestId(1)
-                .setListener(this)
+//        new Gota.Builder(this)
+//                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+//                .requestId(1)
+//                .setListener(this)
+//                .check();
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .check();
+    } //OnCreate
+
+    private void init(){
         Context mContext = this;
         Address finalA = null;
         MyTracker tracker = new MyTracker(mContext);
@@ -73,6 +86,18 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
             finalA = a;
             locationInfo = a.getSubLocality();
             Log.e("Location",locationInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mGeo = new Geocoder(mContext, Locale.KOREA);
+        addr = null;
+        a = null;
+
+        try {
+            addr = mGeo.getFromLocation(tracker.getLatitude(),tracker.getLongitude(),1);
+            a = addr.get(0);
+            finalA = a;
             locationText.setText(a.getSubLocality());
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,8 +109,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         dateText.setText(Date+"("+week+")");
 
         getWeatherInfo(); //날씨
-
-    } //OnCreate
+    }
 
     public class Weater {
         int lat;
@@ -123,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                 try {
                     //위치
                     Log.i(TAG, "onResponse: "+ (((int)response.body().mains.temp) - 273));
+//                    Log.i(TAG, "onResponse weather : "+response.body().weather.size());
                     temperatureValue = (((int)response.body().mains.temp) - 273);
                     temperatureString = ((Integer)temperatureValue).toString();
                     tempratureText.setText(temperatureString);
@@ -162,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     }
 
                     //날씨
+                    String icon = response.body().weathers.get(0).icon;
+                    Log.i(TAG, "onResponse: iconurl : "+"http://openweathermap.org/img/w/"+icon+".png");
+                    Glide.with(getApplicationContext()).load("http://openweathermap.org/img/w/"+icon+".png").into(weatherImage);
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -204,5 +232,20 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         }
 
     }
+    PermissionListener permissionlistener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            init();
+        }
+
+        @Override
+        public void onPermissionDenied(List<String> deniedPermissions) {
+            Toast.makeText(MainActivity.this, "권한이 거부되었습니다" , Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+
+    };
 
 }
