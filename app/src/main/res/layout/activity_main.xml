@@ -27,8 +27,8 @@
 
                 <TextView
                     android:id="@+id/tempratureText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="79dp"
+                    android:layout_height="78dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="76dp"
                     android:layout_marginRight="76dp"
@@ -47,22 +47,23 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="52dp"
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#394D6B"
                     android:textSize="50sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.666"
                     app:layout_constraintStart_toEndOf="@+id/weatherImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/dateText"
-                    android:layout_width="166dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="158dp"
+                    android:layout_height="59dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:gravity="center"
                     android:text="mm/dd"
                     android:textColor="#394D6B"
@@ -73,14 +74,12 @@
 
                 <ImageView
                     android:id="@+id/weatherImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="108dp"
+                    android:layout_height="105dp"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginTop="32dp"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/sun" />
 
                 <ImageView

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     String locationInfo;
     String temperatureString="";
     int temperatureValue=0;
+    String weathericon="";
     String week="";
 
 
@@ -187,9 +188,9 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     }
 
                     //날씨
-                    String icon = response.body().weathers.get(0).icon;
-                    Log.i(TAG, "onResponse: iconurl : "+"http://openweathermap.org/img/w/"+icon+".png");
-                    Glide.with(getApplicationContext()).load("http://openweathermap.org/img/w/"+icon+".png").into(weatherImage);
+                    weathericon = response.body().weathers.get(0).icon;
+                    Log.i(TAG, "onResponse: iconurl : "+"http://openweathermap.org/img/w/"+weathericon+".png");
+                    Glide.with(getApplicationContext()).load("http://openweathermap.org/img/w/"+weathericon+".png").into(weatherImage);
 
                 }catch (Exception e){
                     e.printStackTrace();
