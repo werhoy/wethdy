@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     String locationInfo;
     String temperatureString="";
     int temperatureValue=0;
-    int weathrtId=0;
-    String weather="";
-    boolean raining=false;
     String week="";
 
 
@@ -81,7 +78,11 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
             e.printStackTrace();
         }
 
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd",Locale.KOREA);
+        String Date = df.format(new Date());
         getDate(); //날짜
+        dateText.setText(Date+"("+week+")");
+
         getWeatherInfo(); //날씨
 
     } //OnCreate
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     }
 
     @Override
-    public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) { //앱 권한 요청
+    public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) {
         if(gotaResponse.isGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
 
         }
@@ -126,15 +127,41 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     temperatureString = ((Integer)temperatureValue).toString();
                     tempratureText.setText(temperatureString);
 
+                    if (temperatureValue < 5) {
+                        scriptText.setText("읏추!! 감기 걸리겠어요");
+                        charactersImage.setImageResource(R.drawable.c5);
+
+                    } else if (temperatureValue < 10) { //6~9도
+                        scriptText.setText("핫도그 먹기 좋은 날씨에요:0");
+                        charactersImage.setImageResource(R.drawable.c6_9);
+
+                    } else if (temperatureValue < 12) { //10~11도
+                        scriptText.setText("으슬으슬! 뜨숩게 입고 나가요");
+                        charactersImage.setImageResource(R.drawable.c10_11);
+
+                    } else if (temperatureValue < 17) { //12~16도
+                        scriptText.setText("겉옷 꼭 챙겨서 나가요!"); //겉옷필수
+                        charactersImage.setImageResource(R.drawable.c12_16);
+
+                    } else if (temperatureValue < 20) { //17~19도
+                        scriptText.setText("자전거 타러갈까요?:)");
+                        charactersImage.setImageResource(R.drawable.c17_19);
+
+                    } else if (temperatureValue < 23) { //20~22도
+                        scriptText.setText("솜사탕들고 나들이갈 날씨에요:0");
+                        charactersImage.setImageResource(R.drawable.c20_22);
+
+                    } else if (temperatureValue < 27) { //23~26도
+                        scriptText.setText("더워! 물 자주 마시세요");
+                        charactersImage.setImageResource(R.drawable.c23_26);
+
+                    } else { //27도 이상
+                        scriptText.setText("아이스크림처럼 녹아버리겠어요:(");
+                        charactersImage.setImageResource(R.drawable.c27);
+
+                    }
+
                     //날씨
-                    Log.i(TAG, "rain: "+ response.body().weathers.get(0).main);
-                    weather = response.body().weathers.get(0).main;
-                    if(weather.equals("rain")) raining = true;
-
-                    Log.i(TAG,"weather"+response.body().weathers.get(0).id);
-                    weathrtId = response.body().weathers.get(0).id;
-
-                    imageChange(); //이미지 체인지
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -151,8 +178,6 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     private void getDate(){
         Calendar cal = Calendar.getInstance();
         int dayweek = cal.get(Calendar.DAY_OF_WEEK);
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd",Locale.KOREA);
-        String Date = df.format(new Date());
 
         switch (dayweek){
             case 1:
@@ -178,79 +203,6 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                 break;
         }
 
-        dateText.setText(Date+"("+week+")");
     }
-
-    void rainText(){
-        scriptText.setText("비와요 우산 잊지말기!");
-    }
-    private void imageChange(){
-        if(temperatureValue<5){
-            if(raining) { //5도이하
-                charactersImage.setImageResource(R.drawable.cr5);
-                rainText();
-                return;
-            }
-            scriptText.setText("읏추!! 감기 걸리겠어요");
-            charactersImage.setImageResource(R.drawable.c5);
-        }else if(temperatureValue<10){ //6~9도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr6_9);
-                rainText();
-                return;
-            }
-            scriptText.setText("핫도그 먹기 좋은 날씨에요:0");
-            charactersImage.setImageResource(R.drawable.c6_9);
-        }else if(temperatureValue<12){ //10~11도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr10_11);
-                rainText();
-                return;
-            }
-            scriptText.setText("으슬으슬! 뜨숩게 입고 나가요");
-            charactersImage.setImageResource(R.drawable.c10_11);
-        }else if(temperatureValue<17){ //12~16도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr12_16);
-                rainText();
-                return;
-            }
-            scriptText.setText("겉옷 꼭 챙겨서 나가요!"); //겉옷필수
-            charactersImage.setImageResource(R.drawable.c12_16);
-        }else if(temperatureValue<20){ //17~19도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr17_19);
-                rainText();
-                return;
-            }
-            scriptText.setText("자전거 타러갈까요?:)");
-            charactersImage.setImageResource(R.drawable.c17_19);
-        }else if(temperatureValue<23){ //20~22도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr20_22);
-                rainText();
-                return;
-            }
-            scriptText.setText("솜사탕들고 나들이갈 날씨에요:0");
-            charactersImage.setImageResource(R.drawable.c20_22);
-        }else if(temperatureValue<27){ //23~26도
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr23_26);
-                rainText();
-                return;
-            }
-            scriptText.setText("더워! 물 자주 마시세요");
-            charactersImage.setImageResource(R.drawable.c23_26);
-        }else{ //27도 이상
-            if(raining) {
-                charactersImage.setImageResource(R.drawable.cr27);
-                rainText();
-                return;
-            }
-            scriptText.setText("아이스크림처럼 녹아버리겠어요:(");
-            charactersImage.setImageResource(R.drawable.c27);
-        }
-    }
-
 
 }
