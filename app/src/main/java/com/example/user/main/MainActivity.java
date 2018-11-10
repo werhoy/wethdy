@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     int temperatureValue=0;
     String weathericon="";
     String week="";
+    boolean raining = false;
 
 
     @Override
@@ -153,44 +154,111 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     temperatureString = ((Integer)temperatureValue).toString();
                     tempratureText.setText(temperatureString);
 
+                    //날씨
+                    weathericon = response.body().weathers.get(0).icon;
+
+                    if(weathericon.equals("01d")){
+                        weatherImage.setImageResource(R.drawable.sun);
+                    }else if(weathericon.equals("01n")){
+                        weatherImage.setImageResource(R.drawable.moon);
+                    }else if(weathericon.equals("02d")){
+                        weatherImage.setImageResource(R.drawable.clouds_sun);
+                    }else if(weathericon.equals("02n")){
+                        weatherImage.setImageResource(R.drawable.clouds_moon);
+                    }else if(weathericon.equals("03d") || weathericon.equals("03n")){
+                        weatherImage.setImageResource(R.drawable.clouds);
+                    }else if(weathericon.equals("04d") || weathericon.equals("04n")){
+                        weatherImage.setImageResource(R.drawable.broken_clouds);
+                    }else if(weathericon.equals("09d") || weathericon.equals("09n")){
+                        weatherImage.setImageResource(R.drawable.shower_rain);
+                        raining = true;
+                    }else if(weathericon.equals("10d")){
+                        weatherImage.setImageResource(R.drawable.rain_sun);
+                        raining = true;
+                    }else if(weathericon.equals("10n")){
+                        weatherImage.setImageResource(R.drawable.rain_moon);
+                        raining = true;
+                    }else if(weathericon.equals("11d") || weathericon.equals("11n")){
+                        weatherImage.setImageResource(R.drawable.thunder);
+                    }else if(weathericon.equals("13d") || weathericon.equals("13n")){
+                        weatherImage.setImageResource(R.drawable.snow);
+                    }else if(weathericon.equals("50d") || weatherImage.equals("50n")){
+                        weatherImage.setImageResource(R.drawable.mist);
+                    }
+
                     if (temperatureValue < 5) {
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr5);
+                            return;
+                        }
                         scriptText.setText("읏추!! 감기 걸리겠어요");
                         charactersImage.setImageResource(R.drawable.c5);
 
                     } else if (temperatureValue < 10) { //6~9도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr6_9);
+                            return;
+                        }
                         scriptText.setText("핫도그 먹기 좋은 날씨에요:0");
                         charactersImage.setImageResource(R.drawable.c6_9);
 
                     } else if (temperatureValue < 12) { //10~11도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr10_11);
+                            return;
+                        }
                         scriptText.setText("으슬으슬! 뜨숩게 입고 나가요");
                         charactersImage.setImageResource(R.drawable.c10_11);
 
                     } else if (temperatureValue < 17) { //12~16도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr12_16);
+                            return;
+                        }
                         scriptText.setText("겉옷 꼭 챙겨서 나가요!"); //겉옷필수
                         charactersImage.setImageResource(R.drawable.c12_16);
 
                     } else if (temperatureValue < 20) { //17~19도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr17_19);
+                            return;
+                        }
                         scriptText.setText("자전거 타러갈까요?:)");
                         charactersImage.setImageResource(R.drawable.c17_19);
 
                     } else if (temperatureValue < 23) { //20~22도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr20_22);
+                            return;
+                        }
                         scriptText.setText("솜사탕들고 나들이갈 날씨에요:0");
                         charactersImage.setImageResource(R.drawable.c20_22);
 
                     } else if (temperatureValue < 27) { //23~26도
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr23_26);
+                            return;
+                        }
                         scriptText.setText("더워! 물 자주 마시세요");
                         charactersImage.setImageResource(R.drawable.c23_26);
 
                     } else { //27도 이상
+                        if(raining){
+                            scriptText.setText("비가 와요! 우산을 챙기세요");
+                            charactersImage.setImageResource(R.drawable.cr27);
+                            return;
+                        }
                         scriptText.setText("아이스크림처럼 녹아버리겠어요:(");
                         charactersImage.setImageResource(R.drawable.c27);
 
                     }
-
-                    //날씨
-                    weathericon = response.body().weathers.get(0).icon;
-                    Log.i(TAG, "onResponse: iconurl : "+"http://openweathermap.org/img/w/"+weathericon+".png");
-                    Glide.with(getApplicationContext()).load("http://openweathermap.org/img/w/"+weathericon+".png").into(weatherImage);
 
                 }catch (Exception e){
                     e.printStackTrace();
