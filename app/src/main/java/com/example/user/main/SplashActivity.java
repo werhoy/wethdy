@@ -1,7 +1,10 @@
 package com.example.user.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 public class SplashActivity extends Activity{
@@ -16,6 +19,8 @@ public class SplashActivity extends Activity{
         }
         startActivity(new Intent(this,MainActivity.class));
         finish();
+
+
 
     }
 }
