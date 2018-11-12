@@ -158,32 +158,32 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                     weathericon = response.body().weathers.get(0).icon;
 
                     if(weathericon.equals("01d")){
-                        weatherImage.setImageResource(R.drawable.sun);
+                        weatherImage.setImageResource(R.drawable.w_sun);
                     }else if(weathericon.equals("01n")){
-                        weatherImage.setImageResource(R.drawable.moon);
+                        weatherImage.setImageResource(R.drawable.w_moon);
                     }else if(weathericon.equals("02d")){
-                        weatherImage.setImageResource(R.drawable.clouds_sun);
+                        weatherImage.setImageResource(R.drawable.w_clouds_sun);
                     }else if(weathericon.equals("02n")){
-                        weatherImage.setImageResource(R.drawable.clouds_moon);
+                        weatherImage.setImageResource(R.drawable.w_clouds_moon);
                     }else if(weathericon.equals("03d") || weathericon.equals("03n")){
-                        weatherImage.setImageResource(R.drawable.clouds);
+                        weatherImage.setImageResource(R.drawable.w_clouds);
                     }else if(weathericon.equals("04d") || weathericon.equals("04n")){
-                        weatherImage.setImageResource(R.drawable.broken_clouds);
+                        weatherImage.setImageResource(R.drawable.w_broken_clouds);
                     }else if(weathericon.equals("09d") || weathericon.equals("09n")){
-                        weatherImage.setImageResource(R.drawable.shower_rain);
+                        weatherImage.setImageResource(R.drawable.w_shower_rain);
                         raining = true;
                     }else if(weathericon.equals("10d")){
-                        weatherImage.setImageResource(R.drawable.rain_sun);
+                        weatherImage.setImageResource(R.drawable.w_rain_sun);
                         raining = true;
                     }else if(weathericon.equals("10n")){
-                        weatherImage.setImageResource(R.drawable.rain_moon);
+                        weatherImage.setImageResource(R.drawable.w_rain_moon);
                         raining = true;
                     }else if(weathericon.equals("11d") || weathericon.equals("11n")){
-                        weatherImage.setImageResource(R.drawable.thunder);
+                        weatherImage.setImageResource(R.drawable.w_thunder);
                     }else if(weathericon.equals("13d") || weathericon.equals("13n")){
-                        weatherImage.setImageResource(R.drawable.snow);
+                        weatherImage.setImageResource(R.drawable.w_snow);
                     }else if(weathericon.equals("50d") || weatherImage.equals("50n")){
-                        weatherImage.setImageResource(R.drawable.mist);
+                        weatherImage.setImageResource(R.drawable.w_mist);
                     }
 
                     if (temperatureValue < 5) {

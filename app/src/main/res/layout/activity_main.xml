@@ -33,8 +33,8 @@
                     android:layout_marginEnd="76dp"
                     android:layout_marginRight="76dp"
                     android:gravity="center"
-                    android:text="30"
-                    android:textColor="#394D6B"
+                    android:text="-"
+                    android:textColor="@color/colorText"
                     android:textSize="70sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -43,18 +43,14 @@
                     android:id="@+id/locationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="52dp"
                     android:gravity="center"
-                    android:text="TextView"
-                    android:textColor="#394D6B"
+                    android:text="날씨 조회중"
+                    android:textColor="@color/colorText"
                     android:textSize="50sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.666"
-                    app:layout_constraintStart_toEndOf="@+id/weatherImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -65,8 +61,8 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:gravity="center"
-                    android:text="mm/dd"
-                    android:textColor="#394D6B"
+                    android:text="-/-(-)"
+                    android:textColor="@color/colorText"
                     android:textSize="50sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +75,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/sun" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/cimageView"
@@ -102,7 +97,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="57dp"
-                app:srcCompat="@drawable/c5" />
+                app:srcCompat="@drawable/cloding" />
 
             <TextView
                 android:id="@+id/scriptText"
@@ -112,8 +107,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-55dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textColor="#394D6B"
+                android:text="기다려죠!"
+                android:textColor="@color/colorText"
                 android:textSize="30sp" />
 
 
