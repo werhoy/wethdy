@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -68,10 +70,13 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
                 .requestId(1)
                 .setListener(this)
                 .check();
+
         //TedPermission.with(this)
         //        .setPermissionListener(permissionlistener)
-        //        .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        //        .setPermissions(Manifest.permission.INTERNET)
         //        .check();
+
+
     } //OnCreate
 
     private void init(){
@@ -302,5 +307,19 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         }
 
     }
+    //PermissionListener permissionlistener = new PermissionListener() {
+    //    @Override
+    //    public void onPermissionGranted() {
+    //        Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+    //        init();
+    //    }
+
+     //   @Override
+     //   public void onPermissionDenied(List<String> deniedPermissions) {
+     //       Toast.makeText(MainActivity.this, "와이파이 연결을 해주세요" , Toast.LENGTH_SHORT).show();
+     //       finish();
+     //   }
+
+    //};
 
 }
