@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         charactersImage = (ImageView)findViewById(R.id.charactersimage);
         weatherImage = (ImageView)findViewById(R.id.weatherImage);
 
-//        new Gota.Builder(this)
-//                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
-//                .requestId(1)
-//                .setListener(this)
-//                .check();
-        TedPermission.with(this)
-                .setPermissionListener(permissionlistener)
-                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        new Gota.Builder(this)
+                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .requestId(1)
+                .setListener(this)
                 .check();
+        //TedPermission.with(this)
+        //        .setPermissionListener(permissionlistener)
+        //        .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        //        .check();
     } //OnCreate
 
     private void init(){
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
     @Override
     public void onRequestBack(int requestId, @NonNull GotaResponse gotaResponse) {
         if(gotaResponse.isGranted(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            init();
 
         }
     }
@@ -301,20 +302,5 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         }
 
     }
-    PermissionListener permissionlistener = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-            Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            init();
-        }
-
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) {
-            Toast.makeText(MainActivity.this, "권한이 거부되었습니다" , Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-
-    };
 
 }
