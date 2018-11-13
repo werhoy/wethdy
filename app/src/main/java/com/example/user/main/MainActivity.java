@@ -78,10 +78,9 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
         //        .setPermissionListener(permissionlistener)
         //        .setPermissions(Manifest.permission.INTERNET)
         //        .check();
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (!mWifi.isConnected()) {
+
+        if (netWork()) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("")
                     .setMessage("네트워크 연결상태를 확인해주세요")
@@ -97,6 +96,14 @@ public class MainActivity extends AppCompatActivity implements Gota.OnRequestPer
 
 
     } //OnCreate
+    private boolean netWork(){
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ninfo = cm.getActiveNetworkInfo();
+        if(ninfo == null){
+            return false;
+        }
+        return true;
+    }
 
     private void init(){
         Context mContext = this;
